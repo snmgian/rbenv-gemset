@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -e
+
+RBENV_VERSION="$(rbenv-version 2>/dev/null | cut -d' ' -f 1 || true)"
+
+RBENV_GEMSET="$(rbenv-gemset-active 2>/dev/null | cut -d' ' -f 1 || true)"
+
+if [ -z "$RBENV_VERSION" ]; then
+  echo "there is no current ruby version" >&2
+  exit 1
+fi
+
+if [ -z "$RBENV_GEMSET" ]; then
+  echo "there is no active gemset" >&2
+  exit 1
+fi
+
+rbenv-gemset-delete $RBENV_VERSION $RBENV_GEMSET
